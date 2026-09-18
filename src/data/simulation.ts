@@ -11,6 +11,15 @@ import type { InsightData } from '@/services/aiService'
 
 import type { FormStepProps } from '../components/features/Simulation/FormStep'
 
+export type CoachRole = 'user' | 'assistant'
+
+export type CoachMessage = {
+  id: string
+  role: CoachRole
+  content: string
+  createdAt: string
+}
+
 export const simulationFormSteps = [
   {
     id: 'income',
@@ -88,12 +97,20 @@ export const simulationFormSteps = [
   },
 ] satisfies FormStepProps[]
 
-export type SimulationFormData = Record<
-  (typeof simulationFormSteps)[number]['id'],
-  string
->
+export type SimulationFormData = {
+  income: string
+  expenses: string
+  debts: string
+  goalName: string
+  goalAmount: string
+  goalDeadline: string
+}
 
 export type SimulationRecord = SimulationFormData & {
   id: string
+  createdAt: string
   insight?: InsightData
+  coachMessages?: CoachMessage[]
+  [key: string]:
+    string | undefined | InsightData | CoachMessage[] | (() => void)
 }

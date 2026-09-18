@@ -1,267 +1,140 @@
-# Planej.ai: Desenvolvendo um Educador Financeiro com React e IA Generativa
+# Planej.ai
 
-O **Planej.ai** é uma aplicação web de planejamento financeiro pessoal. O usuário preenche um formulário com informações sobre sua renda, gastos e uma meta financeira (como uma viagem ou a compra de um bem), e a aplicação usa inteligência artificial para gerar um diagnóstico personalizado com sugestões práticas, ideias de renda extra e um plano de ação.
+Aplicação web para simular metas financeiras, gerar diagnósticos com IA e acompanhar o histórico de planejamento pessoal.
 
-Tudo funciona diretamente no navegador: sem backend, sem banco de dados remoto. Os dados são salvos no `localStorage` e as análises são geradas em tempo real pela API do Google Gemini.
+## Visão geral
 
----
+O Planej.ai ajuda a pessoa usuária a:
 
-## Stacks do Projeto
+- registrar renda, gastos, dívidas e meta financeira;
+- calcular a economia mensal necessária para atingir o objetivo;
+- receber um diagnóstico personalizado do Educador Financeiro;
+- conversar com o coach para tirar dúvidas sobre orçamento e investimentos;
+- consultar o histórico de simulações realizadas no navegador.
 
-### Dependências de produção
-
-| Pacote                   | Versão  | Finalidade                   |
-| ------------------------ | ------- | ---------------------------- |
-| `react`                  | ^19.2.4 | Biblioteca principal de UI   |
-| `react-dom`              | ^19.2.4 | Renderização React no DOM    |
-| `react-router-dom`       | ^7.13.2 | Roteamento client-side (SPA) |
-| `tailwindcss`            | ^4.2.2  | Framework de CSS utilitário  |
-| `@tailwindcss/vite`      | ^4.2.2  | Plugin Tailwind para Vite    |
-| `@fontsource/inter`      | ^5.2.8  | Fonte Inter auto-hospedada   |
-| `lucide-react`           | ^1.5.0  | Biblioteca de ícones SVG     |
-| `react-loading-skeleton` | ^3.5.0  | Skeletons de carregamento    |
-
-### Dependências de desenvolvimento
-
-| Pacote                             | Versão  | Finalidade                               |
-| ---------------------------------- | ------- | ---------------------------------------- |
-| `vite`                             | ^8.0.1  | Build tool e dev server                  |
-| `typescript`                       | ~5.9.3  | Tipagem estática                         |
-| `@vitejs/plugin-react`             | ^6.0.1  | Suporte a React no Vite (Fast Refresh)   |
-| `eslint`                           | ^9.39.4 | Linter de código                         |
-| `prettier`                         | ^3.8.1  | Formatação de código                     |
-| `eslint-plugin-simple-import-sort` | ^12.1.1 | Ordenação automática de imports          |
-| `eslint-plugin-unused-imports`     | ^4.4.1  | Remove imports não utilizados            |
-| `prettier-plugin-tailwindcss`      | ^0.7.2  | Ordenação automática de classes Tailwind |
+Tudo funciona no front-end com armazenamento local em `localStorage`, sem backend próprio. A análise da IA é feita pela API do Google Gemini e os dados ficam persistidos no navegador para facilitar o acompanhamento contínuo.
 
 ---
 
-## Estrutura de Pastas
+## Funcionalidades entregues
 
+- Formulário multi-step para cadastrar a simulação
+- Cálculo da economia mensal disponível e necessária
+- Diagnóstico financeiro com IA e estados de carregamento/erro
+- Conversa com o Educador Financeiro em contexto da simulação atual
+- Histórico de simulações com resumo de cada meta
+- Persistência local para manter as simulações salvas
+- Tema claro/escuro
+
+---
+
+## Tecnologias
+
+- React + TypeScript
+- Vite
+- React Router
+- Tailwind CSS
+- Lucide React
+- Google Gemini API
+
+---
+
+## Requisitos
+
+- Node.js 18+
+- npm ou pnpm
+- chave de API do Gemini em variável de ambiente `VITE_GEMINI_API_KEY`
+
+---
+
+## Como rodar localmente
+
+1. Instale as dependências:
+
+   ```bash
+   npm install
+   ```
+
+2. Crie um arquivo `.env` com a sua chave da API:
+
+   ```env
+   VITE_GEMINI_API_KEY=sua_chave_aqui
+   ```
+
+3. Inicie o projeto:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Acesse a aplicação no navegador em `http://localhost:5173`.
+
+---
+
+## Scripts
+
+```bash
+npm run dev
+npm run build
+npm run lint
+npm run preview
 ```
+
+---
+
+## Estrutura do projeto
+
+```text
 planejai/
 ├── public/
-│   ├── favicon.svg           # Ícone da aba do navegador
-│   └── icons.svg             # Sprite de ícones SVG
 ├── src/
 │   ├── assets/
-│   │   └── images/
-│   │       └── piggy-bank.png  # Imagem ilustrativa (hero)
 │   ├── components/
 │   │   ├── features/
-│   │   │   ├── Insights/       # Componentes de exibição dos insights da IA
-│   │   │   │   ├── Content.tsx
-│   │   │   │   └── Error.tsx
-│   │   │   ├── Simulation/     # Componentes do formulário multi-step
-│   │   │   │   ├── Form.tsx
-│   │   │   │   ├── FormStep.tsx
-│   │   │   │   ├── Hero.tsx
-│   │   │   │   └── Progress.tsx
-│   │   │   └── SimulationResults/  # Componentes da página de resultados
-│   │   │       ├── AIInsightCardProps.tsx
-│   │   │       └── Card.tsx
+│   │   │   ├── Insights/
+│   │   │   ├── Simulation/
+│   │   │   └── SimulationResults/
 │   │   ├── layout/
-│   │   │   └── RootLayout.tsx  # Layout raiz com Header
-│   │   └── shared/             # Componentes reutilizáveis
-│   │       ├── Button.tsx
-│   │       ├── Divider.tsx
-│   │       ├── Header.tsx
-│   │       ├── Input.tsx
-│   │       └── PageHero.tsx
+│   │   └── shared/
 │   ├── context/
-│   │   └── theme/
-│   │       ├── ThemeContext.tsx   # Contexto de tema (claro/escuro)
-│   │       └── ThemeProvider.tsx  # Provider do contexto de tema
 │   ├── data/
-│   │   ├── aiPrompt.ts       # Montagem do prompt para o Gemini
-│   │   └── simulation.ts     # Dados e configuração do formulário
 │   ├── hooks/
-│   │   ├── useInsight.tsx         # Hook de chamada à API do Gemini
-│   │   ├── useSimulationStorage.tsx  # Hook de leitura/escrita no localStorage
-│   │   └── useTheme.tsx           # Hook de acesso ao contexto de tema
 │   ├── pages/
-│   │   ├── SimulationFormPage.tsx    # Página do formulário
-│   │   └── SimulationResultsPage.tsx # Página de resultados
 │   ├── services/
-│   │   └── aiService.ts      # Chamada HTTP à API do Google Gemini
 │   ├── styles/
-│   │   └── theme.css         # Variáveis CSS de tema (claro/escuro)
 │   ├── utils/
-│   │   ├── currency.ts       # Máscara e formatação de moeda
-│   │   └── simulation.ts     # Utilitários de simulação
-│   ├── App.tsx               # Componente raiz
-│   ├── index.css             # Estilos globais e imports
-│   ├── main.tsx              # Entry point da aplicação
-│   └── router.tsx            # Definição das rotas
+│   ├── App.tsx
+│   ├── index.css
+│   ├── main.tsx
+│   └── router.tsx
+├── .env.example
 ├── index.html
 ├── package.json
 ├── tsconfig.json
-└── vite.config.ts
+├── vite.config.ts
+└── README.md
 ```
 
 ---
 
-## Estilos Iniciais
+## Observações importantes
 
-### `src/index.css`
-
-Cole este conteúdo no arquivo `src/index.css` após instalar as dependências:
-
-```css
-@import 'tailwindcss';
-@import '@fontsource/inter/400.css';
-@import '@fontsource/inter/600.css';
-@import '@fontsource/inter/700.css';
-@import '@fontsource/inter/800.css';
-@import './styles/theme.css';
-
-@layer base {
-  body {
-    @apply bg-background text-foreground;
-    width: 100%;
-    height: 100%;
-    transition:
-      background-color 0.3s ease,
-      color 0.3s ease;
-  }
-}
-
-.lucide {
-  stroke-width: 1.5;
-}
-```
-
-### `src/styles/theme.css`
-
-Crie o arquivo `src/styles/theme.css` e cole o conteúdo abaixo. Ele define as variáveis CSS de cor para os temas claro e escuro, e as registra no sistema de tokens do Tailwind v4:
-
-```css
-@layer base {
-  :root,
-  [data-theme='light'] {
-    --background: #f8fafc;
-    --foreground: #0f1729;
-    --primary: #925cf0;
-    --primary-foreground: #f8fafc;
-    --card: #fcfcfe;
-    --border: rgba(9, 9, 11, 0.08);
-    --muted-primary: rgba(146, 92, 240, 0.5);
-    --muted-foreground: #64749a;
-    --secondary-button: #f1f5f9;
-    --input: #fcfcfe;
-    --skeleton-base-color: #e1e1f1;
-    --skeleton-highlight-color: #c5c5df;
-  }
-
-  [data-theme='dark'] {
-    --background: #0f0d16;
-    --foreground: #fcfcfe;
-    --primary: #925cf0;
-    --primary-foreground: #fcfcfc;
-    --card: #181622;
-    --border: rgba(248, 250, 252, 0.4);
-    --muted-primary: rgba(146, 92, 240, 0.2);
-    --muted-foreground: #ad9fc8;
-    --secondary-button: #27272a;
-    --input: #232131;
-    --skeleton-base-color: #3e3e42;
-    --skeleton-highlight-color: #434052;
-  }
-}
-
-@theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-card: var(--card);
-  --color-border: var(--border);
-  --color-muted-primary: var(--muted-primary);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-secondary-button: var(--secondary-button);
-  --color-input: var(--input);
-  --color-red-500: #ef4444;
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --color-skeleton-base: var(--skeleton-base-color);
-  --color-skeleton-highlight: var(--skeleton-highlight-color);
-}
-```
+- A aplicação persiste dados no navegador usando `localStorage`, então o histórico fica disponível mesmo ao recarregar a página.
+- Sem `VITE_GEMINI_API_KEY`, a IA não consegue responder. Em ambientes de avaliação, pode ser necessário configurar essa variável manualmente.
+- O projeto foi pensado como SPA e tem foco em experiência financeira didática e acessível.
 
 ---
 
-## Design
+## Roadmap de melhorias
 
-O layout do projeto está disponível no Figma:
-
-[Educador Financeiro — DIO](https://www.figma.com/design/MVZhmZxoVAsgotZo50gj6M/Educador-Financeiro---DIO?node-id=29-403&t=Cv4vW38VUtwwLO3Z-1)
-
----
-
-## Assets
-
-Faça o download dos arquivos abaixo e coloque-os nos caminhos indicados dentro do projeto:
-
-| Arquivo                                            | Caminho no projeto                 | Descrição                  |
-| -------------------------------------------------- | ---------------------------------- | -------------------------- |
-| [piggy-bank.png](src/assets/images/piggy-bank.png) | `src/assets/images/piggy-bank.png` | Ilustração da hero section |
-
----
-
-## Sumário
-
-- [Bloco 1 — Configuração e Layout Base do Projeto](#bloco-1--configuração-e-layout-base-do-projeto)
-  - [Aula 01: Apresentação do Curso e do Projeto](#aula-01-apresentação-do-curso-e-do-projeto)
-  - [Aula 02: Criando o Projeto com Vite e Configurações Iniciais](#aula-02-criando-o-projeto-com-vite-e-configurações-iniciais)
-  - [Aula 03: Adicionando e Configurando o Tailwind CSS com Vite](#aula-03-adicionando-e-configurando-o-tailwind-css-com-vite)
-  - [Aula 04: Configurando Variáveis de Tema e Estilos Globais](#aula-04-configurando-variáveis-de-tema-e-estilos-globais)
-  - [Aula 05: Configurando Rotas com React Router](#aula-05-configurando-rotas-com-react-router)
-  - [Aula 06: Componente `Button`](#aula-06-componente-button)
-  - [Aula 07: Cabeçalho e Menu de Navegação](#aula-07-cabeçalho-e-menu-de-navegação)
-- [Bloco 2 — Temas e Formulário Multi-Step de Simulação](#bloco-2--temas-e-formulário-multi-step-de-simulação)
-  - [Aula 08: Implementando o Sistema de Temas](#aula-08-implementando-o-sistema-de-temas)
-  - [Aula 09: Estrutura Base da Página de Simulação](#aula-09-estrutura-base-da-página-de-simulação)
-  - [Aula 10: Componente de Progresso do Formulário](#aula-10-componente-de-progresso-do-formulário)
-  - [Aula 11: Interface do Formulário de Simulação](#aula-11-interface-do-formulário-de-simulação)
-  - [Aula 12: Configurando os Dados do Formulário Multi-Step](#aula-12-configurando-os-dados-do-formulário-multi-step)
-  - [Aula 13: Lógica de Avançar, Voltar e Exibir Progresso](#aula-13-lógica-de-avançar-voltar-e-exibir-progresso)
-  - [Aula 14: Aplicando Máscara de Moeda no Input](#aula-14-aplicando-máscara-de-moeda-no-input)
-  - [Aula 15: Salvando as Respostas no localStorage](#aula-15-salvando-as-respostas-no-localstorage)
-- [Bloco 3 — Resultado da Simulação e Insights com IA](#bloco-3--resultado-da-simulação-e-insights-com-ia)
-  - [Aula 16: Componentes para a Página de Resultados](#aula-16-componentes-para-a-página-de-resultados)
-  - [Aula 17: Implementando ID Único para Cada Simulação](#aula-17-implementando-id-único-para-cada-simulação)
-  - [Aula 18: Criando o Prompt para a IA Generativa](#aula-18-criando-o-prompt-para-a-ia-generativa)
-  - [Aula 19: Obtendo a Chave de API do Google Gemini](#aula-19-obtendo-a-chave-de-api-do-google-gemini)
-  - [Aula 20: Chamada para a API do Gemini](#aula-20-chamada-para-a-api-do-gemini)
-  - [Aula 21: Evitando Chamadas Duplicadas à API](#aula-21-evitando-chamadas-duplicadas-à-api)
-  - [Aula 22: Estados de Carregamento e de Erro](#aula-22-estados-de-carregamento-e-de-erro)
-  - [Aula 23: Exibindo o Diagnóstico Financeiro da IA](#aula-23-exibindo-o-diagnóstico-financeiro-da-ia)
-- [Desafios](#desafios)
-  - [Desafio 1 — Página de Histórico de Simulações](#desafio-1--página-de-histórico-de-simulações)
-  - [Desafio 2 — Conversando com o Educador Financeiro](#desafio-2--conversando-com-o-educador-financeiro)
-
----
-
-## Bloco 1 — Configuração e Layout Base do Projeto
-
-### Aula 01: Apresentação do Curso e do Projeto
-
-O Planej.ai é uma SPA (Single Page Application) desenvolvida com React + TypeScript. Nesta série, você vai aprender a construir do zero uma aplicação com formulário multi-step, sistema de temas (claro/escuro), persistência de dados com `localStorage` e integração com IA generativa.
-
----
-
-### Aula 02: Criando o Projeto com Vite e Configurações Iniciais
-
-1. Crie o projeto utilizando o Vite com o template de React + TypeScript:
-
-   ```bash
-   pnpm create vite planejai --template react-ts
-   ```
-
-2. Faça uma limpeza nos arquivos gerados automaticamente pelo Vite:
-   - Remova o arquivo `App.css`
-   - Limpe o conteúdo de `App.tsx`
-   - Deixe o arquivo `index.css` em branco
-   - Remova as imagens da pasta `assets`
+- exportação dos relatórios de simulação;
+- edição de simulações já salvas;
+- filtros por data e status da meta;
+- suporte a mais tipos de objetivo financeiro.
+  - Remova o arquivo `App.css`
+  - Limpe o conteúdo de `App.tsx`
+  - Deixe o arquivo `index.css` em branco
+  - Remova as imagens da pasta `assets`
 
 3. Configure o repositório Git e vincule ao repositório remoto:
 
@@ -2025,18 +1898,24 @@ Regras:
      }[]
    }
 
-   const API_KEY = String(import.meta.env.VITE_GEMINI_API_KEY)
+   const API_KEY = import.meta.env.VITE_GEMINI_API_KEY?.trim()
    const MODEL_NAME = 'gemini-flash-latest'
-   const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`
 
    const callGeminiAPI = async (prompt: string) => {
-     const response = await fetch(GEMINI_API_URL, {
-       method: 'POST',
-       headers: { 'Content-Type': 'application/json' },
-       body: JSON.stringify({
-         contents: [{ parts: [{ text: prompt }] }],
-       }),
-     })
+     if (!API_KEY) {
+       throw new Error('Defina VITE_GEMINI_API_KEY no arquivo .env.local.')
+     }
+
+     const response = await fetch(
+       `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`,
+       {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({
+           contents: [{ parts: [{ text: prompt }] }],
+         }),
+       },
+     )
 
      if (!response.ok) {
        throw new Error(`Erro na requisição: ${response.status}`)

@@ -3,8 +3,8 @@ import { parseCurrency } from './currency'
 
 export function calcMonthlySavings(data: SimulationFormData) {
   return (
-    parseCurrency(data.income) -
-    parseCurrency(data.expenses) -
-    parseCurrency(data.debts)
+    parseCurrency(data.income ?? '0') -
+    parseCurrency(data.expenses ?? '0') -
+    parseCurrency(data.debts ?? '0')
   )
 }

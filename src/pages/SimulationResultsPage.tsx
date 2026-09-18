@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 
+import { FinanceCoachCard } from '@/components/features/Insights/Coach'
 import { AIInsightsCard } from '@/components/features/SimulationResults/AIInsightCardProps'
 import { Card } from '@/components/features/SimulationResults/Card'
 import { PageHero } from '@/components/shared/PageHero'
@@ -20,7 +21,7 @@ export function SimulationResultsPage() {
 
   const data = id ? getFormData(id) : null
 
-  if (!data) {
+  if (!data || !data.goalAmount || !data.goalName || !data.goalDeadline) {
     return <p>Simulação não encontrada.</p>
   }
 
@@ -75,6 +76,10 @@ export function SimulationResultsPage() {
             subtitle={'Valor comprometido em parcelas/depósito'}
           />
         </div>
+      </div>
+
+      <div className="mt-6">
+        <FinanceCoachCard simulationId={data.id} />
       </div>
     </main>
   )
