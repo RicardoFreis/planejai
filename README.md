@@ -39,13 +39,11 @@ Tudo funciona no front-end com armazenamento local em `localStorage`, sem backen
 
 ---
 
-## O que eu(Ricardo) desenvolvi para mostrar o que aprendi
+## O que eu(Ricardo) desenvolvi para mostrar meu aprendizado.
 
-- Fiz um fork conforme solicitado pelo professor da Dio para meu github
-- Baseado neste fork fiz alterações conforme descritas abaixo:
-  - Criei duas propriedades Nome e Idade para o usuário informar.
-  - Incluir estas propriedades no Histórico.
-  - Criei um botão para excluir cada histórico individualmente.
-  - Criei um botão para limpeza total de todos os históricos.
-
----
+- Fiz um fork conforme solicitado pelo professor da Dio para meu github. 
+- Baseado neste fork fiz alterações conforme as descrições abaixo definidas por mim:
+  - Adicionei duas propriedades Nome e Idade para o usuário informar.
+  - Adicionei também estas duas propriedades no Histórico.
+  - Criei um botão para excluir cada histórico individualmente, ao clicar surge um popup com a opção de exclusão ou cancelamento.
+  - Criei um botão para excluir totalmente todos os históricos, ao clicar também surge um popup com a opção de exclusão ou cancelamento.
