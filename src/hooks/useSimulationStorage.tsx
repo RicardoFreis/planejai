@@ -1,8 +1,9 @@
+import { useCallback } from 'react'
+
 import {
   type SimulationFormData,
   type SimulationRecord,
 } from '@/data/simulation'
-import { useCallback } from 'react'
 
 const LOCAL_STORAGE_KEY = 'simulation-data'
 
@@ -64,5 +65,21 @@ export const useSimulationStorage = () => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated))
   }, [])
 
-  return { saveFormData, getAllSimulations, getFormData, updateSimulation }
+  const deleteSimulation = useCallback((id: string) => {
+    const updated = readSavedData().filter((record) => record.id !== id)
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated))
+  }, [])
+
+  const clearAllSimulations = useCallback(() => {
+    localStorage.removeItem(LOCAL_STORAGE_KEY)
+  }, [])
+
+  return {
+    saveFormData,
+    getAllSimulations,
+    getFormData,
+    updateSimulation,
+    deleteSimulation,
+    clearAllSimulations,
+  }
 }

@@ -50,6 +50,9 @@ export const SimulationForm = () => {
       <FormStep
         key={currentStep.id}
         {...currentStep}
+        initialValue={
+          formData[currentStep.id as keyof SimulationFormData] ?? ''
+        }
         onBack={handlePreviousStep}
         onNext={handleNextStep}
         hideBackButton={currentStepIndex === 0}

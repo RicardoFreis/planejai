@@ -1,6 +1,8 @@
 import {
+  Calendar,
   CalendarClock,
   CreditCard,
+  FileUser,
   Goal,
   Landmark,
   PiggyBank,
@@ -21,6 +23,27 @@ export type CoachMessage = {
 }
 
 export const simulationFormSteps = [
+  // Ricardo
+  {
+    id: 'yourName',
+    icon: FileUser,
+    title: 'Queremos te conhecer melhor!',
+    question: 'Qual o seu nome?',
+    inputProps: {
+      placeholder: 'ex: Ricardo',
+      maxLength: 50,
+    },
+  },
+  {
+    id: 'yourAge',
+    icon: Calendar,
+    title: 'Deixe-nos saber sobre sua faixa etária!',
+    question: 'Qual a sua idade?',
+    inputProps: {
+      placeholder: 'ex: 50 anos',
+      maxLength: 20,
+    },
+  },
   {
     id: 'income',
     icon: PiggyBank,
@@ -98,6 +121,8 @@ export const simulationFormSteps = [
 ] satisfies FormStepProps[]
 
 export type SimulationFormData = {
+  yourName: string
+  yourAge: string
   income: string
   expenses: string
   debts: string
@@ -112,5 +137,9 @@ export type SimulationRecord = SimulationFormData & {
   insight?: InsightData
   coachMessages?: CoachMessage[]
   [key: string]:
-    string | undefined | InsightData | CoachMessage[] | (() => void)
+    | string
+    | undefined
+    | InsightData
+    | CoachMessage[]
+    | (() => void)
 }
